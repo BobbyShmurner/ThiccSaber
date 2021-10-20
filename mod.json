@@ -13,6 +13,7 @@
         "libThickSaber.so"
     ],
     "libraryFiles": [
-        "libbeatsaber-hook_2_3_2.so"
+        "libbeatsaber-hook_2_3_2.so",
+        "libbs-utils.so"
     ]
 }

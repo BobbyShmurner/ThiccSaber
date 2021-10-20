@@ -3,6 +3,8 @@
 #include "MainViewController.hpp"
 #include "MainConfig.hpp"
 
+#include "bs-utils/shared/utils.hpp"
+
 #include "questui/shared/QuestUI.hpp"
 #include "questui/shared/BeatSaberUI.hpp"
 #include "questui/shared/CustomTypes/Components/ExternalComponents.hpp"
@@ -77,4 +79,8 @@ extern "C" void load() {
     QuestUI::Init();
     QuestUI::Register::RegisterMainMenuModSettingsViewController<ThickSaber::MainViewController*>(modInfo);
     getLogger().info("UI Registered!");
+
+    getLogger().info("Disabling Score Submissions...");
+    bs_utils::Submission::disable(modInfo);
+    getLogger().info("Disabled Score Submissions!");
 }

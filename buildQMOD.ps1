@@ -11,6 +11,7 @@ $TempArchiveName = "ThickSaber_v1.0.0.qmod.zip"
 
 & $buildScript NDK_PROJECT_PATH=$PSScriptRoot APP_BUILD_SCRIPT=$PSScriptRoot/Android.mk NDK_APPLICATION_MK=$PSScriptRoot/Application.mk -j 4
 Compress-Archive -Path  "./libs/arm64-v8a/libbeatsaber-hook_2_3_2.so",`
+                        "./libs/arm64-v8a/libbs-utils.so",`
                         "./libs/arm64-v8a/libThickSaber.so",`
                         "./cover.png",`
                         "./mod.json" -DestinationPath $TempArchiveName -Force

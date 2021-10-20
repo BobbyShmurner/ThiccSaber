@@ -49,6 +49,12 @@ LOCAL_MODULE := custom-types
 LOCAL_EXPORT_C_INCLUDES := extern/custom-types
 LOCAL_SRC_FILES := extern/libcustom-types.so
 include $(PREBUILT_SHARED_LIBRARY)
+# Creating prebuilt for dependency: bs-utils - version: 0.6.4
+include $(CLEAR_VARS)
+LOCAL_MODULE := bs-utils
+LOCAL_EXPORT_C_INCLUDES := extern/bs-utils
+LOCAL_SRC_FILES := extern/libbs-utils.so
+include $(PREBUILT_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := ThickSaber
@@ -60,6 +66,7 @@ LOCAL_SHARED_LIBRARIES += beatsaber-hook_2_3_2
 LOCAL_SHARED_LIBRARIES += questui
 LOCAL_SHARED_LIBRARIES += codegen
 LOCAL_SHARED_LIBRARIES += custom-types
+LOCAL_SHARED_LIBRARIES += bs-utils
 LOCAL_LDLIBS += -llog
 LOCAL_CFLAGS += -I'extern/libil2cpp/il2cpp/libil2cpp' -DID='"ThickSaber"' -DVERSION='"1.0.0"' -I'./shared' -I'./extern' -isystem'extern/codegen/include'
 LOCAL_CPPFLAGS += -std=c++2a
