@@ -15,7 +15,7 @@
 #include "UnityEngine/Vector3.hpp"
 #include "UnityEngine/Transform.hpp"
 
-static ModInfo modInfo; // Stores the ID and version of our mod, and is sent to the modloader upon startup
+ModInfo modInfo; // Stores the ID and version of our mod, and is sent to the modloader upon startup
 DEFINE_CONFIG(MainConfig);
 
 // Loads the config from disk using our modInfo, then returns it for use
@@ -80,7 +80,7 @@ extern "C" void load() {
     QuestUI::Register::RegisterMainMenuModSettingsViewController<ThickSaber::MainViewController*>(modInfo);
     getLogger().info("UI Registered!");
 
-    getLogger().info("Disabling Score Submissions...");
-    bs_utils::Submission::disable(modInfo);
-    getLogger().info("Disabled Score Submissions!");
+    getLogger().info("Setting Score Submision Status...");
+    UpdateSubmmisionActivity();
 }
+
