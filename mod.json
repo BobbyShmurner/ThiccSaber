@@ -1,8 +1,8 @@
 
 {
     "_QPVersion": "0.1.1",
-    "name": "Thick Saber",
-    "id": "ThickSaber",
+    "name": "Thicc Saber",
+    "id": "ThiccSaber",
     "author": "Bobby Shmurner",
     "coverImage": "cover.png",
     "version": "1.0.0",
@@ -10,7 +10,7 @@
     "packageVersion": "1.17.1",
     "description": "A simple mod which allows you to control the dimensions of notes!",
     "modFiles": [
-        "libThickSaber.so"
+        "libThiccSaber.so"
     ],
     "libraryFiles": [
         "libbeatsaber-hook_2_3_2.so",

@@ -2,7 +2,7 @@
   "configurations": [
     {
       "defines": [
-        "ID=\"ThickSaber\"",
+        "ID=\"ThiccSaber\"",
         "VERSION=\"1.0.0\"",
         "__GNUC__",
         "__aarch64__"

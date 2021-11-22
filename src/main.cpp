@@ -30,22 +30,22 @@ Logger& getLogger() {
     return *logger;
 }
 
-MAKE_HOOK_MATCH(thickNote, &GlobalNamespace::NoteController::Init, void, GlobalNamespace::NoteController* self, GlobalNamespace::NoteData* noteData, float worldRotation, UnityEngine::Vector3 moveStartPos, UnityEngine::Vector3 moveEndPos, UnityEngine::Vector3 jumpEndPos, float moveDuration, float jumpDuration, float jumpGravity, float endRotation, float uniformScale) {
-    thickNote(self, noteData, worldRotation, moveStartPos, moveEndPos, jumpEndPos, moveDuration, jumpDuration,  jumpGravity, endRotation, uniformScale);
+MAKE_HOOK_MATCH(thiccNote, &GlobalNamespace::NoteController::Init, void, GlobalNamespace::NoteController* self, GlobalNamespace::NoteData* noteData, float worldRotation, UnityEngine::Vector3 moveStartPos, UnityEngine::Vector3 moveEndPos, UnityEngine::Vector3 jumpEndPos, float moveDuration, float jumpDuration, float jumpGravity, float endRotation, float uniformScale) {
+    thiccNote(self, noteData, worldRotation, moveStartPos, moveEndPos, jumpEndPos, moveDuration, jumpDuration,  jumpGravity, endRotation, uniformScale);
     
     UnityEngine::Vector3 baseScale = self->get_noteTransform()->get_localScale();
 
     if (noteData->colorType == GlobalNamespace::ColorType::None && noteData->cutDirection) { // If True The Note Is A Bomb
         if (getMainConfig().ChangeBombSizes.GetValue()) {
             self->get_noteTransform()->set_localScale(UnityEngine::Vector3(baseScale.x * getMainConfig().Width.GetValue(), baseScale.y * getMainConfig().Height.GetValue(), baseScale.z * getMainConfig().Depth.GetValue()));    
-            getLogger().info("Made Bomb THICK! (Color Type: %i, Note Cut Direction: %i)", noteData->colorType.value, noteData->cutDirection.value);
+            getLogger().info("Made Bomb THICC! (Color Type: %i, Note Cut Direction: %i)", noteData->colorType.value, noteData->cutDirection.value);
         }
 
         return;
     } else {
         if (getMainConfig().ChangeNoteSizes.GetValue()) {
             self->get_noteTransform()->set_localScale(UnityEngine::Vector3(baseScale.x * getMainConfig().Width.GetValue(), baseScale.y * getMainConfig().Height.GetValue(), baseScale.z * getMainConfig().Depth.GetValue()));    
-            getLogger().info("Made Note THICK! (Color Type: %i, Note Cut Direction: %i)", noteData->colorType.value, noteData->cutDirection.value);
+            getLogger().info("Made Note THICC! (Color Type: %i, Note Cut Direction: %i)", noteData->colorType.value, noteData->cutDirection.value);
         }
     }
 }
@@ -72,12 +72,12 @@ extern "C" void load() {
     il2cpp_functions::Init();
 
     getLogger().info("Installing hooks...");
-    INSTALL_HOOK(getLogger(), thickNote);
+    INSTALL_HOOK(getLogger(), thiccNote);
     getLogger().info("Installed all hooks!");
 
     getLogger().info("Registering UI...");
     QuestUI::Init();
-    QuestUI::Register::RegisterMainMenuModSettingsViewController<ThickSaber::MainViewController*>(modInfo);
+    QuestUI::Register::RegisterMainMenuModSettingsViewController<ThiccSaber::MainViewController*>(modInfo);
     getLogger().info("UI Registered!");
 
     getLogger().info("Setting Score Submision Status...");

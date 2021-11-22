@@ -36,7 +36,7 @@ using namespace TMPro;
 
 extern ModInfo modInfo;
 
-DEFINE_TYPE(ThickSaber, MainViewController);
+DEFINE_TYPE(ThiccSaber, MainViewController);
 
 void SetSubmisionsActive(bool active) {
 	if (active) {
@@ -61,7 +61,7 @@ void UpdateSubmmisionActivity() {
 	getLogger().info("Score Submision Status: %s", bs_utils::Submission::getEnabled() ? "True" : "False");
 }
 
-void ThickSaber::MainViewController::DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling) {
+void ThiccSaber::MainViewController::DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling) {
 	if (!firstActivation) return;
 
 	getLogger().info("Drawing Canvas...");

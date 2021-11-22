@@ -1,6 +1,6 @@
 & $PSScriptRoot/build.ps1
 if ($?) {
-    adb push libs/arm64-v8a/libThickSaber.so /sdcard/Android/data/com.beatgames.beatsaber/files/mods/libThickSaber.so
+    adb push libs/arm64-v8a/libThiccSaber.so /sdcard/Android/data/com.beatgames.beatsaber/files/mods/libThiccSaber.so
     if ($?) {
         & $PSScriptRoot/restart-game.ps1
         if ($args[0] -eq "--log") {

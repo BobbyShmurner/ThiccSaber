@@ -22,7 +22,7 @@ if ($args[0] -eq "--file") {
 }
 if ($args[0] -eq "--self") {
     echo "Logging only this mod!"
-    adb logcat -T "$timestamp" --pid $bspid | Select-String -pattern "(ThickSaber|AndroidRuntime)"
+    adb logcat -T "$timestamp" --pid $bspid | Select-String -pattern "(ThiccSaber|AndroidRuntime)"
 }
 if ($args[0] -eq "--custom") {
     $pattern = "(" + $args[1] + "|AndriodRuntime)"
