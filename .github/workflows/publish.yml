@@ -1,9 +1,7 @@
 name: Publish QMod
 
 env:
-  module_id: HotSwappableMods
-  qmodName: Hot-Swappable_Mods
-  cache-name: HotSwappableMods_cache
+  qmodName: Thicc_Saber
 
 on:
   push:
