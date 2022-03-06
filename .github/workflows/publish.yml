@@ -64,6 +64,10 @@ jobs:
       env:
         response:  ${{ steps.get_release.outputs.data }}
 
+    - name: Build Qmod
+      run: |
+        pwsh -Command ./buildQMOD.ps1
+
     - name: Upload Qmod Asset
       id: upload_qmod_asset
       uses: actions/upload-release-asset@v1
