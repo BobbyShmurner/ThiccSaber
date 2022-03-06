@@ -81,4 +81,4 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         repo-token: ${{ secrets.REPO_TOKEN }}
         qmod-name: ${{env.qmodName}}-v${{ steps.get_tag_version.outputs.VERSION }}.qmod
-        tag: ${GITHUB_REF#refs/tags/}
+        tag: ${{github.ref_name}}
