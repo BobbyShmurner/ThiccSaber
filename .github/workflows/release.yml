@@ -24,6 +24,21 @@ jobs:
   publish-to-repo:
     runs-on: ubuntu-latest
     steps:
+      - name: Get QPM
+        if: steps.cache-qpm.outputs.cache-hit != 'true'
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: cargo-build.yml
+          name: linux-qpm-rust
+          path: QPM
+          repo: RedBrumbler/QuestPackageManager-Rust
+
+      - name: Create mod.json
+        run: |
+          chmod +x ./QPM/qpm-rust
+          ./QPM/qpm-rust qmod build --include_libs "libbeatsaber-hook_3_6_8.so" --include_libs "lib${{env.module_id}}.so" --include_libs "libbs-utils.so"
+
       - name: Upload QMod to Mod Repo
         uses: BobbyShmurner/mod-uploader@testing
         with:
