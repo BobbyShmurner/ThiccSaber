@@ -1,31 +1,73 @@
+Param(
+    [Parameter(Mandatory=$false)]
+    [Switch] $self,
+
+    [Parameter(Mandatory=$false)]
+    [Switch] $all,
+
+    [Parameter(Mandatory=$false)]
+    [String] $custom="",
+
+    [Parameter(Mandatory=$false)]
+    [Switch] $file,
+
+    [Parameter(Mandatory=$false)]
+    [Switch] $restart,
+
+    [Parameter(Mandatory=$false)]
+    [Switch] $help,
+
+    [Parameter(Mandatory=$false)]
+    [Switch] $excludeHeader
+)
+
+if ($help -eq $true) {
+    if ($excludeHeader -eq $false) {
+        echo "`"Start-Logging`" - Logs Beat Saber using `"adb logcat`""
+        echo "`n-- Arguments --`n"
+    }
+
+    echo "-Self `t`t Only Logs your mod and Crashes"
+    echo "-All `t`t Logs everything, including logs made by the Quest itself"
+    echo "-Custom `t Specify a specific logging pattern, e.g `"custom-types|questui`""
+    echo "`t`t NOTE: The paterent `"AndriodRuntime|CRASH`" is always appended to a custom pattern"
+    echo "-File `t`t Saves the output of the log to `"logcat.log`""
+
+    exit
+}
+
+& adb logcat -G 16M
+
+if ($restart -eq $true) {
+    & $PSScriptRoot/restart-game.ps1
+}
+
 $timestamp = Get-Date -Format "MM-dd HH:mm:ss.fff"
 $bspid = adb shell pidof com.beatgames.beatsaber
-while ([string]::IsNullOrEmpty($bspid)) {
-    Start-Sleep -Milliseconds 100
-    $bspid = adb shell pidof com.beatgames.beatsaber
-}
-if ($args.Count -eq 0) {
-    echo "Start logging!"
-    adb logcat -T "$timestamp" --pid $bspid | Select-String -pattern "(QuestHook|modloader|AndroidRuntime)"
-}
-if ($args[0] -eq "--file") {
-    echo "Logging and saving to file ($PSScriptRoot/logcat.log)!"
+$command = "adb logcat -T `"$timestamp`""
 
-    $ErrorActionPreference="SilentlyContinue"
-    Stop-Transcript | out-null
-    $ErrorActionPreference = "Continue"
+if ($all -eq $false) {
+    while ([string]::IsNullOrEmpty($bspid)) {
+        Start-Sleep -Milliseconds 100
+        $bspid = adb shell pidof com.beatgames.beatsaber
+    }
 
+    $command += "--pid $bspid"
+}
 
-    Start-Transcript -path $PSScriptRoot\logcat.log -append
-    adb logcat -T "$timestamp" --pid $bspid | Select-String -pattern "(QuestHook|modloader|AndroidRuntime)"
-    Stop-Transcript
+if ($self -eq $true) {
+    $command += " | Select-String -pattern `"(ThiccSaber|AndroidRuntime|CRASH)`""
+} elseif ($custom -ne "") {
+    $pattern = "(" + $custom + "|AndriodRuntime|CRASH)"
+    $command += " | Select-String -pattern `"$pattern`""
 }
-if ($args[0] -eq "--self") {
-    echo "Logging only this mod!"
-    adb logcat -T "$timestamp" --pid $bspid | Select-String -pattern "(ThiccSaber|AndroidRuntime)"
+elseif ($all -eq $false) {
+    $command += " | Select-String -pattern `"(QuestHook|modloader|AndroidRuntime|CRASH)`""
 }
-if ($args[0] -eq "--custom") {
-    $pattern = "(" + $args[1] + "|AndriodRuntime)"
-    echo "Logging With Custom Pattern $pattern"
-    adb logcat -T "$timestamp" --pid $bspid | Select-String -pattern $pattern
+
+if ($file -eq $true) {
+    $command += " | Out-File -FilePath $PSScriptRoot\logcat.log"
 }
+
+echo "Logging using Command `"$command`""
+Invoke-Expression $command

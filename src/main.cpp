@@ -3,7 +3,7 @@
 #include "MainViewController.hpp"
 #include "MainConfig.hpp"
 
-// #include "bs-utils/shared/utils.hpp"
+#include "bs-utils/shared/utils.hpp"
 
 #include "questui/shared/QuestUI.hpp"
 #include "questui/shared/BeatSaberUI.hpp"
@@ -30,8 +30,8 @@ Logger& getLogger() {
     return *logger;
 }
 
-MAKE_HOOK_MATCH(thiccNote, &GlobalNamespace::NoteController::Init, void, GlobalNamespace::NoteController* self, GlobalNamespace::NoteData* noteData, float worldRotation, UnityEngine::Vector3 moveStartPos, UnityEngine::Vector3 moveEndPos, UnityEngine::Vector3 jumpEndPos, float moveDuration, float jumpDuration, float jumpGravity, float endRotation, float uniformScale) {
-    thiccNote(self, noteData, worldRotation, moveStartPos, moveEndPos, jumpEndPos, moveDuration, jumpDuration,  jumpGravity, endRotation, uniformScale);
+MAKE_HOOK_MATCH(thiccNote, &GlobalNamespace::NoteController::Init, void, GlobalNamespace::NoteController* self, GlobalNamespace::NoteData* noteData, float worldRotation, UnityEngine::Vector3 moveStartPos, UnityEngine::Vector3 moveEndPos, UnityEngine::Vector3 jumpEndPos, float moveDuration, float jumpDuration, float jumpGravity, float endRotation, float uniformScale, bool rotateTowardsPlayer, bool useRandomRotation) {
+    thiccNote(self, noteData, worldRotation, moveStartPos, moveEndPos, jumpEndPos, moveDuration, jumpDuration,  jumpGravity, endRotation, uniformScale, rotateTowardsPlayer, useRandomRotation);
     
     UnityEngine::Vector3 baseScale = self->get_noteTransform()->get_localScale();
 
