@@ -2,7 +2,7 @@
 
 #include "MainConfig.hpp"
 
-#include "bs-utils/shared/utils.hpp"
+// #include "bs-utils/shared/utils.hpp"
 
 #include "UnityEngine/RectOffset.hpp"
 #include "UnityEngine/RectTransform.hpp"
@@ -40,9 +40,9 @@ DEFINE_TYPE(ThiccSaber, MainViewController);
 
 void SetSubmisionsActive(bool active) {
 	if (active) {
-		bs_utils::Submission::enable(modInfo);
+		// bs_utils::Submission::enable(modInfo);
 	} else {
-		bs_utils::Submission::disable(modInfo);
+		// bs_utils::Submission::disable(modInfo);
 	}
 }
 
@@ -58,7 +58,7 @@ void UpdateSubmmisionActivity() {
 	}
 
 	SetSubmisionsActive(active);
-	getLogger().info("Score Submision Status: %s", bs_utils::Submission::getEnabled() ? "True" : "False");
+	// getLogger().info("Score Submision Status: %s", bs_utils::Submission::getEnabled() ? "True" : "False");
 }
 
 void ThiccSaber::MainViewController::DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling) {
