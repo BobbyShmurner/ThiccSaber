@@ -14,7 +14,7 @@ on:
         required: false 
         type: string
       note:
-        description: 'A note to pass to include in the PR's message'
+        description: "A note to pass to include in the PR's message"
         required: false 
         type: string
         
