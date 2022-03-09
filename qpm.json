@@ -4,9 +4,11 @@
   "info": {
     "name": "Thicc Saber",
     "id": "ThiccSaber",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "url": null,
-    "additionalData": {}
+    "additionalData": {
+      "overrideSoName": "libThiccSaber.so"
+    }
   },
   "dependencies": [
     {
