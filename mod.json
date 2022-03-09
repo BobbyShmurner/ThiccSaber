@@ -1,0 +1,37 @@
+{
+  "_QPVersion": "0.1.1",
+  "name": "Thicc Saber",
+  "id": "ThiccSaber",
+  "author": "Bobby Shmurner",
+  "version": "1.1.0",
+  "packageId": "com.beatgames.beatsaber",
+  "packageVersion": "1.20.0",
+  "description": "A simple mod which allows you to control the dimensions of notes!",
+  "coverImage": "cover.png",
+  "dependencies": [
+    {
+      "version": "^0.15.0",
+      "id": "custom-types",
+      "downloadIfMissing": "https://github.com/sc2ad/Il2CppQuestTypePatching/releases/download/v0.15.8/CustomTypes.qmod"
+    },
+    {
+      "version": "^0.21.0",
+      "id": "codegen",
+      "downloadIfMissing": "https://github.com/sc2ad/BeatSaber-Quest-Codegen/releases/download/v0.21.0/Codegen.qmod"
+    },
+    {
+      "version": "^0.13.0",
+      "id": "questui",
+      "downloadIfMissing": "https://github.com/darknight1050/questui/releases/download/v0.13.3/QuestUI.qmod"
+    }
+  ],
+  "modFiles": [
+    "libThiccSaber.so"
+  ],
+  "libraryFiles": [
+    "libbeatsaber-hook_3_6_8.so",
+    "libbs-utils.so"
+  ],
+  "fileCopies": [],
+  "copyExtensions": []
+}
