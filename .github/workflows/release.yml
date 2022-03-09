@@ -24,6 +24,12 @@ jobs:
   publish-to-repo:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+        name: Checkout
+        with:
+          submodules: true
+          lfs: true
+          
       - name: Get QPM
         if: steps.cache-qpm.outputs.cache-hit != 'true'
         uses: dawidd6/action-download-artifact@v2
