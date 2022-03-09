@@ -1,7 +1,9 @@
 name: Publish QMod
 
 env:
+  module_id: ThiccSaber
   qmodName: Thicc_Saber
+  cache-name: ThiccSaber_cache
 
 on:
   push:
@@ -19,12 +21,91 @@ jobs:
         submodules: true
         lfs: true
 
+    - uses: seanmiddleditch/gha-setup-ninja@v3
+
+    - name: Create ndkpath.txt
+      run: |
+        echo "$ANDROID_NDK_LATEST_HOME" > ${GITHUB_WORKSPACE}/ndkpath.txt
+        cat ${GITHUB_WORKSPACE}/ndkpath.txt
+
+    - name: Get QPM
+      if: steps.cache-qpm.outputs.cache-hit != 'true'
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        workflow: cargo-build.yml
+        name: linux-qpm-rust
+        path: QPM
+        repo: RedBrumbler/QuestPackageManager-Rust
+
+    - name: QPM Collapse
+      run: |
+        chmod +x ./QPM/qpm-rust
+        ./QPM/qpm-rust collapse
+
+    # added the cache on the off chance the qpm.json stays the same across versions
+    - name: QPM Dependencies Cache
+      id: cache-qpm-deps
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-qpm-deps
+      with:
+        path: /home/runner/.local/share/QPM-Rust/cache
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('qpm.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+
+    - name: QPM Restore
+      run: |
+        chmod +x ./QPM/qpm-rust
+        ./QPM/qpm-rust restore
+
+    - name: QPM Legacy fix
+      run: |
+        chmod +x ./QPM/qpm-rust
+        ./QPM/qpm-rust cache legacy-fix
+
+    - name: List Post Restore
+      run: |
+        echo includes:
+        ls -la ${GITHUB_WORKSPACE}/extern/includes
+        echo libs:
+        ls -la ${GITHUB_WORKSPACE}/extern/libs
+        echo cache:
+        ls -la $HOME/.local/share/QPM-Rust/cache
+
     - name: Get Tag Version
       id: get_tag_version
       run: |
         echo ${GITHUB_REF#refs/tags/}
         echo ::set-output name=TAG::${GITHUB_REF#refs/tags/}
         echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/v}
+
+    - name: QPM Edit Version
+      run: |
+        ./QPM/qpm-rust package edit --version "${{ steps.get_tag_version.outputs.VERSION }}"
+
+    - name: Create mod.json
+      run: |
+        chmod +x ./QPM/qpm-rust
+        ./QPM/qpm-rust qmod build --include_libs "libbeatsaber-hook_3_6_8.so" --include_libs "lib${{env.module_id}}.so"
+
+    - name: Build Qmod
+      run: |
+        pwsh -Command ./buildQMOD.ps1 ${{env.qmodName}} -clean
+
+    # Commit the change to the package, .vscode/c_cpp_properties.json, and Android.mk
+    - name: Configure commit
+      run: |
+        git config user.name "Github Actions"
+        git config user.email "<>"
+
+    - name: Commit Edit Version
+      run: |
+        git add qpm.json
+        git commit --allow-empty -m "Update Version and post restore"
 
     # Then, we want to use the commit we have just made, and force push our tag to that commit
     - name: Get Commit ID
@@ -64,6 +145,36 @@ jobs:
       env:
         response:  ${{ steps.get_release.outputs.data }}
 
+    - name: Get Library Name
+      id: libname
+      run: |
+        cd ./build/
+        pattern="lib${module_id}*.so"
+        files=( $pattern )
+        echo ::set-output name=NAME::"${files[0]}"
+        
+    - name: Upload Release Asset
+      id: upload_release_asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.get_upload_url.outputs.upload_url }}
+        asset_path: ./build/${{ steps.libname.outputs.NAME }}
+        asset_name: ${{ steps.libname.outputs.NAME }}
+        asset_content_type: application/octet-stream
+
+    - name: Upload Debug Asset
+      id: upload_debug_asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.get_upload_url.outputs.upload_url }}
+        asset_path: ./build/debug_${{ steps.libname.outputs.NAME }}
+        asset_name: debug_${{ steps.libname.outputs.NAME }}
+        asset_content_type: application/octet-stream
+
     - name: Upload Qmod Asset
       id: upload_qmod_asset
       uses: actions/upload-release-asset@v1
@@ -71,12 +182,12 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.get_upload_url.outputs.upload_url }}
-        asset_path: ./ThiccSaber_v1.0.0.qmod
+        asset_path: ./${{env.qmodName}}.qmod
         asset_name: ${{env.qmodName}}-v${{ steps.get_tag_version.outputs.VERSION }}.qmod
         asset_content_type: application/octet-stream
 
     - name: Upload QMod to Mod Repo
-      uses: BobbyShmurner/mod-uploader@main
+      uses: BobbyShmurner/mod-uploader@v1.0
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         repo-token: ${{ secrets.REPO_TOKEN }}
