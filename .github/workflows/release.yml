@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Upload QMod to Mod Repo
-        uses: BobbyShmurner/mod-uploader@v1.0
+        uses: BobbyShmurner/mod-uploader@testing
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           repo-token: ${{ secrets.REPO_TOKEN }}
