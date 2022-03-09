@@ -90,7 +90,7 @@ jobs:
     - name: Create mod.json
       run: |
         chmod +x ./QPM/qpm-rust
-        ./QPM/qpm-rust qmod build --include_libs "libbeatsaber-hook_3_6_8.so" --include_libs "lib${{env.module_id}}.so" --include_libs "libbs-utils"
+        ./QPM/qpm-rust qmod build --include_libs "libbeatsaber-hook_3_6_8.so" --include_libs "lib${{env.module_id}}.so" --include_libs "libbs-utils.so"
 
     - name: Build Qmod
       run: |
