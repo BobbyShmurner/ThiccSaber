@@ -1,4 +1,4 @@
-# Thicc Blocks
+# Thicc Saber
 
 A simple mod which allows you to control the dimensions of notes!
 
