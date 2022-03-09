@@ -1,0 +1,33 @@
+on: 
+  workflow_dispatch:
+    inputs:
+      qmod-url:
+        description: 'QMod URL'     
+        required: true
+        type: string
+      cover:
+        description: 'Cover URL'
+        required: false 
+        type: string
+      author-icon:
+        description: "Author's PFP URL"
+        required: false 
+        type: string
+      note:
+        description: 'A note to pass to include in the PR's message'
+        required: false 
+        type: string
+        
+jobs:
+  publish-to-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Upload QMod to Mod Repo
+        uses: BobbyShmurner/mod-uploader@v1.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.REPO_TOKEN }}
+          qmod-url: ${{ github.event.inputs.qmod-url }}
+          cover: ${{ github.event.inputs.cover }}
+          author-icon: ${{ github.event.inputs.author-icon }}
+          note: ${{ github.event.inputs.note }}
