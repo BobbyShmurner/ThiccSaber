@@ -50,7 +50,7 @@ jobs:
           echo FODEHoifejwoifgrwiopdqeiowjfoirejhfoirwejoi
 
       - name: Upload QMod to Mod Repo
-        uses: BobbyShmurner/mod-uploader@main
+        uses: BobbyShmurner/mod-uploader@testing
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           repo-token: ${{ secrets.REPO_TOKEN }}
