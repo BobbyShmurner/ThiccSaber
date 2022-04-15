@@ -45,6 +45,10 @@ jobs:
           chmod +x ./QPM/qpm-rust
           ./QPM/qpm-rust qmod build --include_libs "libbeatsaber-hook_3_6_8.so" --include_libs "lib${{env.module_id}}.so" --include_libs "libbs-utils.so"
 
+      - name: Workie Check
+        run: |
+          echo FODEHoifejwoifgrwiopdqeiowjfoirejhfoirwejoi
+
       - name: Upload QMod to Mod Repo
         uses: BobbyShmurner/mod-uploader@main
         with:
