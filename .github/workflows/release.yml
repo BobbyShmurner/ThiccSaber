@@ -46,7 +46,7 @@ jobs:
           ./QPM/qpm-rust qmod build --include_libs "libbeatsaber-hook_3_6_8.so" --include_libs "lib${{env.module_id}}.so" --include_libs "libbs-utils.so"
 
       - name: Upload QMod to Mod Repo
-        uses: BobbyShmurner/mod-uploader@testing
+        uses: BobbyShmurner/mod-uploader@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           repo-token: ${{ secrets.REPO_TOKEN }}
